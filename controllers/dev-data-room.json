@@ -1,15 +1,15 @@
 [
   {
     "id": 1,
-    "name": "Room 1",
-    "maxCapacity": 4,
+    "name": "Hall 1",
+    "maxCapacity": 40,
     "pricePerHour": 100,
     "amenities": ["Wi-fi", "TV"]
   },
   {
     "id": 2,
-    "name": "Room 2",
-    "maxCapacity": 6,
+    "name": "Hall 2",
+    "maxCapacity": 50,
     "pricePerHour": 150,
     "amenities": ["Wi-fi", "TV"]
   }
