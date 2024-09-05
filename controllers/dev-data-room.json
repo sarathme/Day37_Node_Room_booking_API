@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Room 1",
+    "maxCapacity": 4,
+    "pricePerHour": 100,
+    "amenities": ["Wi-fi", "TV"]
+  },
+  {
+    "id": 2,
+    "name": "Room 2",
+    "maxCapacity": 6,
+    "pricePerHour": 150,
+    "amenities": ["Wi-fi", "TV"]
+  }
+]
