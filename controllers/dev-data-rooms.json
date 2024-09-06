@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Hall 1",
+    "maxCapacity": 60,
+    "pricePerHour": 400,
+    "amenities": ["Wi-Fi", "TV", "Air-Conditioning", "Projector"],
+    "id": 1,
+    "bookings": [
+      {
+        "customerName": "Sarath",
+        "bookingDate": "12/5/2024",
+        "startTime": "16:47:29 GMT+0530 (India Standard Time)",
+        "endTime": "18:46:29 GMT+0530 (India Standard Time)",
+        "bookingId": 1
+      },
+      {
+        "customerName": "Sarath",
+        "bookingDate": "13/5/2024",
+        "startTime": "16:47:29 GMT+0530 (India Standard Time)",
+        "endTime": "18:46:29 GMT+0530 (India Standard Time)",
+        "bookingId": 2
+      },
+      {
+        "customerName": "Sarath",
+        "bookingDate": "14/5/2024",
+        "startTime": "16:47:29 GMT+0530 (India Standard Time)",
+        "endTime": "18:46:29 GMT+0530 (India Standard Time)",
+        "bookingId": 3
+      },
+      {
+        "customerName": "Sarath",
+        "bookingDate": "20/5/2024",
+        "startTime": "16:47:29 GMT+0530 (India Standard Time)",
+        "endTime": "18:46:29 GMT+0530 (India Standard Time)",
+        "bookingId": 4
+      }
+    ]
+  },
+  {
+    "name": "Hall 2",
+    "maxCapacity": 60,
+    "pricePerHour": 400,
+    "amenities": ["Wi-Fi", "TV", "Air-Conditioning", "Projector"],
+    "id": 2,
+    "bookings": []
+  }
+]
