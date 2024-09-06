@@ -1,18 +1,57 @@
 # Hall Booking API
 
+Postman Docs:
+[Click Here](https://documenter.getpostman.com/view/16657839/2sAXjQ3W5z)
+
 ## Routes
 
 1. Getting all Rooms:
 
+```sh
+curl --location 'https://day37-node-room-booking-api.onrender.com/api/v1/rooms/'
+```
+
 2. Creating a new room:
+
+```sh
+curl --location 'https://day37-node-room-booking-api.onrender.com/api/v1/rooms/' \
+--data '{
+    "name": "Hall 1",
+    "maxCapacity": 70,
+    "pricePerHour": 400,
+    "amenities": ["Wi-Fi","TV","Air-Conditioning","Projector"]
+}'
+```
 
 3. Booking a room:
 
+```sh
+curl --location 'https://day37-node-room-booking-api.onrender.com/api/v1/rooms/6534hq10m0qbnjwt' \
+--data '{
+    "customerName": "Test",
+    "bookingDate":"7/9/2024",
+    "startTime": "16:47:29 GMT+0530 (India Standard Time)",
+    "endTime": "18:46:29 GMT+0530 (India Standard Time)"
+}'
+```
+
 4. Listing all rooms with booking data:
+
+```sh
+curl --location 'https://day37-node-room-booking-api.onrender.com/api/v1/rooms/bookings'
+```
 
 5. List all customers with booked data:
 
+```sh
+curl --location 'https://day37-node-room-booking-api.onrender.com/api/v1/customers'
+```
+
 6. List how many times a customer has booked the room:
+
+```sh
+curl --location 'https://day37-node-room-booking-api.onrender.com/api/v1/customers/test/bookings'
+```
 
 ## Controller functions
 
@@ -379,6 +418,63 @@ exports.getAllCustomers = (req, res) => {
           customers,
         },
       });
+    }
+  );
+};
+```
+
+### List how many times a customer has booked the room:
+
+```js
+exports.getCustomerBookings = (req, res) => {
+  fs.readFile(
+    path.join(__dirname, "dev-data-rooms.json"),
+    "utf8",
+    (err, data) => {
+      if (err) {
+        return res.status(500).json({
+          status: "fail",
+          message: "Error reading file",
+        });
+      }
+
+      const rooms = JSON.parse(data);
+      const customer = [];
+      rooms.forEach((room) => {
+        room.bookings.forEach((booking) => {
+          if (booking.customerName.toLowerCase() === req.params.customerName) {
+            const dateArr = booking.bookingDate.split("/");
+
+            const today = Date.now();
+            const bookedTime = new Date(
+              `${dateArr[2]}-${
+                dateArr[1] * 1 < 10 ? `0${dateArr[1]}` : `${dateArr[1]}`
+              }-${dateArr[0] * 1 < 10 ? `0${dateArr[0]}` : `${dateArr[0]}`}T${
+                booking.startTime.split(" ")[0]
+              }Z`
+            ).getTime();
+
+            const bookingStatus = today < bookedTime ? "upcoming" : "completed";
+
+            customer.push({ ...booking, roomName: room.name, bookingStatus });
+          }
+        });
+      });
+
+      if (!customer.length) {
+        res.status(404).json({
+          status: "fail",
+          message: `No customer found with the name ${req.params.customerName}`,
+        });
+      } else {
+        res.status(200).json({
+          status: "success",
+          totalBookings: customer.length,
+          data: {
+            customer,
+          },
+        });
+      }
     }
   );
 };
