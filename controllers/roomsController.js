@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const uniqid = require("uniqid");
+
 // Controller function for getting all rooms.
 
 exports.getAllRooms = (req, res) => {
@@ -86,7 +88,7 @@ exports.createRoom = (req, res) => {
     }
 
     // Constructing a new hall object
-    const hall = { ...req.body, id: halls.length + 1, bookings: [] };
+    const hall = { ...req.body, id: uniqid(), bookings: [] };
 
     // Constructing a array of halls.
     const newHalls = [...halls, hall];
@@ -134,7 +136,7 @@ exports.bookRoom = (req, res) => {
       }
 
       // Parsing the roomId from the url.
-      const roomId = req.params.roomId * 1;
+      const roomId = req.params.roomId;
 
       // Parsing the rooms data to a JS object.
 
@@ -160,7 +162,7 @@ exports.bookRoom = (req, res) => {
         // Filtering the rooms except the requested room.
         const newRooms = [...rooms.filter((room) => room.id !== roomId)];
 
-        const booking = Object.assign(req.body, { bookingId: 1 });
+        const booking = Object.assign(req.body, { bookingId: uniqid() });
 
         const bookings = [booking];
 
@@ -230,7 +232,13 @@ exports.bookRoom = (req, res) => {
 
         const bookings = bookingRoom[0].bookings;
 
-        bookings.push({ ...req.body, bookingId: bookings.length + 1 });
+        const bookedAt = new Date(Date.now()).toISOString().split("T")[0];
+        const newBooking = {
+          ...req.body,
+          bookingId: uniqid(),
+          bookedAt,
+        };
+        bookings.push(newBooking);
 
         newRooms.push({
           ...bookingRoom[0],
@@ -251,7 +259,7 @@ exports.bookRoom = (req, res) => {
             return res.status(200).json({
               status: "success",
               data: {
-                booking: { ...req.body, roomId },
+                booking: { ...newBooking, roomId },
               },
             });
           }
